@@ -14,7 +14,9 @@ MonoBehaviour:
   id: TentsModule
   title: Tents
   author: Quinn Wuest & Timwi
-  description: Tents
+  description: "Let\u2019s gather \u2019round the campfire, and sing our campfire
+    song!\n\nDeveloped by Quinn Wuest & Timwi\n\n[url=https://ktane.timwi.de/HTML/Tents.html]Manual
+    HTML[/url].\r\n[url=https://ktane.timwi.de/PDF/Tents.pdf]Manual PDF[/url]."
   version: 1.0
   outputFolder: build
-  previewImage: {fileID: 0}
+  previewImage: {fileID: 2800000, guid: 807eb9725aebee5408075a2838f5a255, type: 3}
