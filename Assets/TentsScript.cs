@@ -95,7 +95,7 @@ public class TentsScript : MonoBehaviour
     private bool ResetButtonPressed()
     {
         Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, ResetButton.transform);
-        ResetButton.AddInteractionPunch();
+        ResetButton.AddInteractionPunch(0.5f);
         if (_moduleSolved)
             return false;
         Reset();
@@ -108,7 +108,7 @@ public class TentsScript : MonoBehaviour
         return delegate
         {
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, ResetButton.transform);
-            ResetButton.AddInteractionPunch();
+            SquareSels[square].AddInteractionPunch(0.2f);
             if (_moduleSolved || _inputtedInfo[square] == SquareType.Tree)
                 return false;
             _inputtedInfo[square] = (SquareType) (((int) _inputtedInfo[square] + 1) % 3);
