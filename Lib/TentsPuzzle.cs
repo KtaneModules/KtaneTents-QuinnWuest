@@ -47,8 +47,8 @@ namespace Tents
             if (tents == null)
                 goto startOver;
 
-            var colClues = Enumerable.Range(0, w).Select(x => (int?)tents.Count(t => t.X == x)).ToArray();
-            var rowClues = Enumerable.Range(0, h).Select(y => (int?)tents.Count(t => t.Y == y)).ToArray();
+            var colClues = Enumerable.Range(0, w).Select(x => (int?) tents.Count(t => t.X == x)).ToArray();
+            var rowClues = Enumerable.Range(0, h).Select(y => (int?) tents.Count(t => t.Y == y)).ToArray();
 
             IEnumerable<Coord[]> solveTents(Coord[] sofar, int?[] cols, int?[] rows)
             {
@@ -67,7 +67,6 @@ namespace Tents
                             yield return tents;
             }
 
-            (bool col, int ix, int clue)[] reqClues;
 
             var cluelessSolutions = solveTents(new Coord[0], new int?[w], new int?[h]).Take(2).ToArray();
             if (cluelessSolutions.Length > 1)
@@ -76,18 +75,17 @@ namespace Tents
                 if (fullClueSolutions.Length > 1)
                     goto startOver;
                 var allClues = colClues.Select((c, ix) => (col: true, ix, clue: c.Value)).Concat(rowClues.Select((r, ix) => (col: false, ix, clue: r.Value))).ToArray();
-                reqClues = Ut.ReduceRequiredSet(allClues, skipConsistencyTest: false, test: state =>
-                    {
-                        var colClues = new int?[w];
-                        var rowClues = new int?[h];
-                        foreach (var (col, ix, clue) in state.SetToTest)
-                            (col ? colClues : rowClues)[ix] = clue;
-                        return !solveTents(new Coord[0], colClues, rowClues).Skip(1).Any();
-                    }).ToArray();
+                var reqClues = Ut.ReduceRequiredSet(allClues, skipConsistencyTest: false, test: state =>
+                {
+                    var colClues = new int?[w];
+                    var rowClues = new int?[h];
+                    foreach (var (col, ix, clue) in state.SetToTest)
+                        (col ? colClues : rowClues)[ix] = clue;
+                    return !solveTents(new Coord[0], colClues, rowClues).Skip(1).Any();
+                }).ToArray();
+                return new TentsPuzzle(reqClues, trees, tents);
             }
-            else
-                reqClues = new (bool col, int ix, int clue)[0];
-            return new TentsPuzzle(reqClues, trees, tents);
+            goto startOver;
         }
     }
 }

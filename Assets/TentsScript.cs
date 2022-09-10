@@ -156,7 +156,7 @@ public class TentsScript : MonoBehaviour
         {
             yield return null;
             var presses = Enumerable.Range(0, _inputtedInfo.Length).Where(ix => _inputtedInfo[ix] == SquareType.Empty).Select(ix => SquareSels[ix]);
-            yield return m.Groups["w"].Success ? presses.ToArray().Shuffle() : presses.Concat(presses).ToArray().Shuffle();
+            yield return m.Groups["t"].Success ? presses.Concat(presses).ToArray().Shuffle() : presses.ToArray().Shuffle();
         }
 
         if ((m = Regex.Match(command, @"^\s*(?:solve|s)\s+([\.#]{36})\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)).Success)
