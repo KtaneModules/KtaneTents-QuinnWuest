@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Tents;
 using UnityEngine;
-using Rnd = UnityEngine.Random;
+
+#pragma warning disable IDE0051 // Remove unused private members
 
 /// <summary>
 /// On the Subject of Tents
@@ -58,15 +57,15 @@ public class TentsScript : MonoBehaviour
         UpdateVisuals();
 
         // SVG logging!
-        var tentSvg = @"<path transform='translate({0} {1}) scale(.01)' d='M44.002 22a2 2 0 0 0-1.063.305 2 2 0 0 0-.634 2.756l6.09 9.742L24.93 70H24c-2 0-2 5-2 5h56s0-5-2-5h-.893L53.154 34.873l6.51-9.764a2 2 0 0 0-.555-2.773A2 2 0 0 0 57.986 22a2 2 0 0 0-1.65.89l-5.508 8.262-5.133-8.213A2 2 0 0 0 44.002 22zm6.389 17.018L60 64l10.332 5.904.06.096H50V39.605l.39-.587z' />";
-        var treeSvg = @"<g transform='translate({0} {1}) scale(.01)' stroke='#000' stroke-width='3'><path fill='#804803' d='M42 60h16v28H42z'/><path fill='#0c0' d='M41.893 12C27.575 12.06 16 23.682 16 38c0 14.36 11.64 26 26 26h16c14.36 0 26-11.64 26-26S72.36 12 58 12H41.893z'/></g>";
+        var tentSvg = @"<path class='tent' transform='translate({0} {1}) scale(.01)' d='M44.002 22a2 2 0 0 0-1.063.305 2 2 0 0 0-.634 2.756l6.09 9.742L24.93 70H24c-2 0-2 5-2 5h56s0-5-2-5h-.893L53.154 34.873l6.51-9.764a2 2 0 0 0-.555-2.773A2 2 0 0 0 57.986 22a2 2 0 0 0-1.65.89l-5.508 8.262-5.133-8.213A2 2 0 0 0 44.002 22zm6.389 17.018L60 64l10.332 5.904.06.096H50V39.605l.39-.587z' />";
+        var treeSvg = @"<g transform='translate({0} {1}) scale(.01)' stroke-width='3'><path class='tree-trunk' d='M42 60h16v28H42z'/><path class='tree-canopy' d='M41.893 12C27.575 12.06 16 23.682 16 38c0 14.36 11.64 26 26 26h16c14.36 0 26-11.64 26-26S72.36 12 58 12H41.893z'/></g>";
 
-        var svg = string.Format(@"<svg xmlns='http://www.w3.org/2000/svg' viewBox='-0.1 -1.1 7.2 7.2' font-size='.9'><path stroke-width='.1' stroke='black' fill='#9f9' d='M0 0h6v6H0z' /><path stroke-width='.05' stroke='black' fill='none' d='M1 0v6M2 0v6M3 0v6M4 0v6M5 0v6 M0 1h6M0 2h6M0 3h6M0 4h6M0 5h6' />{0}{1}{2}</svg>",
+        var svg = string.Format(@"<svg class='tents' xmlns='http://www.w3.org/2000/svg' viewBox='-0.1 -1.1 7.2 7.2' font-size='.9'><path class='frame' stroke-width='.1' d='M0 0h6v6H0z' /><path class='grid' stroke-width='.05' fill='none' d='M1 0v6M2 0v6M3 0v6M4 0v6M5 0v6 M0 1h6M0 2h6M0 3h6M0 4h6M0 5h6' />{0}{1}{2}</svg>",
             _puzzle.Tents.Select(t => string.Format(tentSvg, t.X, t.Y)).Join(""),
             _puzzle.Trees.Select(t => string.Format(treeSvg, t.X, t.Y)).Join(""),
             Enumerable.Range(0, 12)
                 .Where(i => _puzzle.Clues[i] != null)
-                .Select(i => string.Format("<text x='{0}' y='{1}' text-anchor='{3}'>{2}</text>", i < 6 ? i + .5 : 6.2, i < 6 ? -.2 : i - 6 + .85, _puzzle.Clues[i].Value, i < 6 ? "middle" : "start"))
+                .Select(i => string.Format("<text class='label' x='{0}' y='{1}' text-anchor='{3}'>{2}</text>", i < 6 ? i + .5 : 6.2, i < 6 ? -.2 : i - 6 + .85, _puzzle.Clues[i].Value, i < 6 ? "middle" : "start"))
                 .Join(""));
 
         Debug.LogFormat("[Tents #{0}]=svg[Solution:]{1}", _moduleId, svg);
