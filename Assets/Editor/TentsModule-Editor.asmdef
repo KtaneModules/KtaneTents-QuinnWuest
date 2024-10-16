@@ -1,0 +1,10 @@
+{
+  "name": "TentsModule-Editor",
+  "references": [
+    "TentsModule"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": []
+}
